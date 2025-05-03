@@ -30,6 +30,6 @@ spec:
         - name: SPLUNK_HEC_URL
           value: "http://host.docker.internal:8088/services/collector"
         - name: SPLUNK_HEC_TOKEN
-          value: "1702d51c-7dbe-492b-8732-1895e3d9cb48"
+          value: "<Your HEC Token>"
           
           
