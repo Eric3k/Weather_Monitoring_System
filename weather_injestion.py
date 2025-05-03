@@ -10,9 +10,9 @@ import yaml
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # OpenWeatherMap API configuration
-OPENWEATHERMAP_API_KEY = '1f6195682689ea412d3d809dec331bf9'
-OPENWEATHERMAP_API_URL = 'https://api.openweathermap.org/data/2.5/weather'
-CITY_NAMES = ['Mumbai', 'New York', 'London', 'Tokyo', 'Sydney']
+OPENWEATHERMAP_API_KEY = '<Your API Key>'
+OPENWEATHERMAP_API_URL = '<Your API Variable>'
+CITY_NAME = 'Mumbai'
 
 # Splunk HEC configuration
 SPLUNK_HEC_URL = os.environ.get('SPLUNK_HEC_URL')  # Get from environment variable
@@ -22,13 +22,11 @@ def fetch_weather_data():
     """Fetch weather data from OpenWeatherMap API."""
     try:
         weather_data_list = []
-        for CITY_NAME in CITY_NAMES:
-            params = {'q': CITY_NAME, 'appid': OPENWEATHERMAP_API_KEY, 'units': 'metric'}
-            response = requests.get(OPENWEATHERMAP_API_URL, params=params)
-            response.raise_for_status()
-            logging.info(f"Weather data fetched successfully for {CITY_NAME}.")
-            weather_data_list.append(response.json())
-        return weather_data_list
+        params = {'q': CITY_NAME, 'appid': OPENWEATHERMAP_API_KEY, 'units': 'metric'}
+        response = requests.get(OPENWEATHERMAP_API_URL, params=params)
+        response.raise_for_status()
+        logging.info(f"Weather data fetched successfully for {CITY_NAME}.")
+        return response.json()
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching weather data: {e}")
         return None
