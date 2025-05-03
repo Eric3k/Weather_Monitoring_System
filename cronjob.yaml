@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: weather-ingestion-cronjob
+  namespace: default
+spec:
+  schedule: "*/5 * * * *" # Runs every 5 minutes
+  jobTemplate:
+      spec:
+        template:
+          spec:
+            containers:
+            - name: weather-ingestion
+              image: sarvesparab600/weather_app:v4 # Replace with your Docker image
+              imagePullPolicy: Always
+              env:
+              - name: API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: weather-api-secret
+                    key: api-key
+              - name: LOCATION
+                value: "Mumbai" # Replace with your desired location
+            restartPolicy: OnFailure

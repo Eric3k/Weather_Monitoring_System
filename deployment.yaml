@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-monitoring-system
+  labels:
+    app: weather-monitoring-system
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: weather-monitoring-system
+  template:
+    metadata:
+      labels:
+        app: weather-monitoring-system
+    spec:
+      containers:
+      - name: weather-monitoring-container
+        image: sarvesparab600/weather_app:v4 # Replace with your Docker image
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: weather-api-secret
+              key: api-key
+        - name: SPLUNK_HEC_URL
+          value: "http://host.docker.internal:8088/services/collector"
+        - name: SPLUNK_HEC_TOKEN
+          value: "1702d51c-7dbe-492b-8732-1895e3d9cb48"
+          
+          
